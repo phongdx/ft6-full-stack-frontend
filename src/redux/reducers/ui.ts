@@ -1,24 +1,18 @@
-import { TOGGLE_DIALOG, UiState, UiActions } from '../../types'
-
-const defaultState: UiState = {
-  dialogOpen: {},
-}
+import { TOGGLE_DARK_MODE, UiState, UiActions } from '../../types'
 
 export default function ui(
-  state: UiState = defaultState,
+  state: UiState = {
+    darkMode: false,
+  },
   action: UiActions
 ): UiState {
   switch (action.type) {
-  case TOGGLE_DIALOG: {
+  case TOGGLE_DARK_MODE: {
     return {
       ...state,
-      dialogOpen: {
-        ...state.dialogOpen,
-        [action.payload.dialog]: !state.dialogOpen[action.payload.dialog],
-      },
+      darkMode: !state.darkMode,
     }
   }
-
   default:
     return state
   }

@@ -1,14 +1,8 @@
-import {
-  TOGGLE_DIALOG,
-  ToggleDialogAction,
-  DialogType,
-} from '../../types'
+import { TOGGLE_DARK_MODE, ToogleDarkMode } from '../../types'
 
-export function toggleDialog(dialog: DialogType): ToggleDialogAction {
+export function toogleDarkMode(): ToogleDarkMode {
   return {
-    type: TOGGLE_DIALOG,
-    payload: {
-      dialog,
-    }
+    type: TOGGLE_DARK_MODE,
+    payload: {},
   }
 }

@@ -1,4 +1,10 @@
+* {
+  margin: 0px;
+}
+
 .App {
+  margin: 0px;
+  padding: 0px;
   text-align: center;
 }
 

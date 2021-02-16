@@ -6,12 +6,20 @@ import { AppState } from '../types'
 import createRootReducer from './reducers'
 import rootSaga from './sagas'
 
+const inCart = localStorage.getItem('inCart')
+const darkMode = localStorage.getItem('darkMode')
 const initState: AppState = {
+  country: {
+    countriesData: [],
+  },
+  inCart: {
+    inCart: inCart ? JSON.parse(inCart) : [],
+  },
   product: {
     inCart: [],
   },
   ui: {
-    dialogOpen: {},
+    darkMode: darkMode ? JSON.parse(darkMode) : false,
   },
 }
 

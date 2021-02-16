@@ -1,14 +1,11 @@
 import { takeLatest } from 'redux-saga/effects'
 
-import {
-  TOGGLE_DIALOG,
-  ToggleDialogAction,
-} from '../../types'
+import { TOGGLE_DARK_MODE, ToogleDarkMode } from '../../types'
 
-function* doSomethingWhenDialogOpen(action: ToggleDialogAction) {
-  yield console.log(action)
+function* toggleTheme(action: ToogleDarkMode) {
+  const localData = yield localStorage.getItem('darkMode')
+  const darkMode = localData ? JSON.parse(localData) : false
+  localStorage.setItem('darkMode', JSON.stringify(!darkMode))
 }
 
-export default [
-  takeLatest(TOGGLE_DIALOG, doSomethingWhenDialogOpen),
-]
+export default [takeLatest(TOGGLE_DARK_MODE, toggleTheme)]

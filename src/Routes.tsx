@@ -1,13 +1,13 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import Countries from './pages/Countries'
-import CountryDetail from './pages/CountryDetails'
+import Home from './pages/Home'
+import SingleBookPage from './pages/SingleBookPage'
 
 const Routes = () => (
   <Switch>
-    <Route exact path="/" component={Countries} />
-    <Route exact path="/country/:countryName" component={CountryDetail} />
+    <Route exact path="/" component={Home} />
+    <Route exact path="/book" component={SingleBookPage} />
   </Switch>
 )
 

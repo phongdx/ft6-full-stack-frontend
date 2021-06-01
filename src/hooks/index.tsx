@@ -1,33 +1,31 @@
 import { useState, useEffect, useCallback } from 'react'
 
-import { Country, AppState } from '../types'
+import { Book, AppState } from '../types'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchCountries } from '../redux/actions/country'
+import { fetchBooks } from '../redux/actions/book'
 
-const useCountries = (searchInput: string): [Country[]] => {
-  const countries = useSelector(
-    (state: AppState) => state.country.countriesData
-  )
-  const [filteredCountries, setFilteredCountries] = useState<Country[]>([])
+const useBooks = (searchInput: string): [Book[]] => {
+  const books = useSelector((state: AppState) => state.book.books)
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
   const dispatch = useDispatch()
 
-  const getCountries = useCallback(() => {
-    dispatch(fetchCountries())
+  const getBooks = useCallback(() => {
+    dispatch(fetchBooks())
   }, [dispatch])
 
   useEffect(() => {
-    getCountries()
-  }, [dispatch, getCountries])
+    getBooks()
+  }, [dispatch, getBooks])
 
   useEffect(() => {
-    setFilteredCountries(
-      countries.filter((country) => {
-        return country.name.toLowerCase().includes(searchInput.toLowerCase())
+    setFilteredBooks(
+      books.filter((book) => {
+        return book.title.toLowerCase().includes(searchInput.toLowerCase())
       })
     )
-  }, [searchInput, countries])
+  }, [searchInput, books])
 
-  return [filteredCountries]
+  return [filteredBooks]
 }
 
-export default useCountries
+export default useBooks

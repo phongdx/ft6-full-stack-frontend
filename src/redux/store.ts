@@ -8,18 +8,30 @@ import rootSaga from './sagas'
 
 const inCart = localStorage.getItem('inCart')
 const darkMode = localStorage.getItem('darkMode')
+const token = localStorage.getItem('token')
+const loggedUser = localStorage.getItem('loggedUser')
 const initState: AppState = {
-  country: {
-    countriesData: [],
+  book: {
+    books: [],
   },
   inCart: {
     inCart: inCart ? JSON.parse(inCart) : [],
   },
-  product: {
-    inCart: [],
-  },
   ui: {
     darkMode: darkMode ? JSON.parse(darkMode) : false,
+  },
+  loginDetail: {
+    token: token ? token : '',
+    user: loggedUser
+      ? JSON.parse(loggedUser)
+      : {
+        email: '',
+        firstName: '',
+        lastName: '',
+        userType: '',
+        _id: '',
+        borrowedBooks: [],
+      },
   },
 }
 

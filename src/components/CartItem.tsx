@@ -1,39 +1,53 @@
 import React from 'react'
 
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core'
-import { CartItemProp } from '../types'
 import { useDispatch } from 'react-redux'
-import { removeFromCart } from '../redux/actions'
+import { returnBook } from '../redux/actions'
+import { BookProp } from '../types'
 
 const useStyles = makeStyles({
   flag: {
-    width: 100,
-    height: 50,
+    width: 132,
+    height: 175,
     borderRadius: 5,
+  },
+  titleGrid: {
+    minHeight: 175,
   },
 })
 
-const CartItem = ({ country }: CartItemProp) => {
+const CartItem = ({ book }: BookProp) => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const handleReturnBook = () => {
+    dispatch(returnBook(book._id))
+  }
   return (
-    <Grid container justify="space-between" alignItems="center" spacing={3}>
-      <Grid item xs={4}>
-        <img className={classes.flag} alt="flag img" src={country.flag} />
+    <Grid container spacing={3}>
+      <Grid item xs={6}>
+        <img className={classes.flag} alt="flag img" src={book.coverUrl} />
       </Grid>
-      <Grid item xs={4}>
-        <Typography noWrap>{country.name}</Typography>
-      </Grid>
-      <Grid item xs={4}>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            dispatch(removeFromCart(country))
-          }}
+      <Grid item xs={6}>
+        <Grid
+          container
+          direction="column"
+          justify="space-between"
+          alignItems="flex-start"
+          className={classes.titleGrid}
         >
-          REMOVE
-        </Button>
+          <Grid item>
+            <Typography>{book.title}</Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleReturnBook}
+            >
+              Return
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   )

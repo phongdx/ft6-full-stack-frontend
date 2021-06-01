@@ -1,56 +1,47 @@
 import React from 'react'
+import { useState } from 'react'
+import PrimarySearchAppBar from '../components/AppBar'
+import useBooks from '../hooks'
+import { Paper } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { AppState } from '../types'
+import axios from 'axios'
+import { loginSuccess } from '../redux/actions/loginDetail'
+import BookList from '../components/BookList'
 
-import { Product, AppState } from '../types'
-import { addProduct, removeProduct } from '../redux/actions'
-
-const names = [
-  'Apple',
-  'Orange',
-  'Avocado',
-  'Banana',
-  'Cucumber',
-  'Carrot',
-]
-
-export default function Home() {
+const Home = () => {
   const dispatch = useDispatch()
-  const products = useSelector((state: AppState) => state.product.inCart)
+  const [searchInput, setSearchInput] = useState('')
+  const [books] = useBooks(searchInput)
+  const darkMode = useSelector((state: AppState) => state.ui.darkMode)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value)
+  }
 
-  const handleAddProduct = () => {
-    const product: Product = {
-      id: (+new Date()).toString(),
-      name: names[Math.floor(Math.random() * names.length)],
-      price: +(Math.random() * 10).toFixed(2),
-    }
-    dispatch(addProduct(product))
+  const responseGoogle = (respone: any) => {
+    axios
+      .post('http://localhost:5000/api/v1/login/google', {
+        id_token: respone.tokenObj.id_token,
+      })
+      .then((res) => {
+        dispatch(loginSuccess(res.data))
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   return (
-    <>
-      <h1>Home page</h1>
-      { products.length <= 0 && <div>No products in cart</div> }
-      <ul>
-        { products.map(p => (
-          <li key={p.id}>
-            <Link to={`/products/${p.id}`}>
-              {`${p.name} - $${p.price}`}
-            </Link>
-
-            {'  '}
-
-            <button onClick={ () => dispatch(removeProduct(p)) }>
-              Remove
-            </button>
-          </li>
-        ))}
-      </ul>
-      <button
-        onClick={ handleAddProduct }
-      >
-        Add product
-      </button>
-    </>
+    <Paper style={{ height: '100%' }}>
+      <PrimarySearchAppBar
+        darkMode={darkMode}
+        value={searchInput}
+        handleInputChange={handleInputChange}
+        responseGoogle={responseGoogle}
+      />
+      <BookList books={books} />
+    </Paper>
   )
 }
+
+export default Home
